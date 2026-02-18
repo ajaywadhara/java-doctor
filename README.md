@@ -176,6 +176,15 @@ Adapt these tools to your assistant:
 2. Create a feature branch
 3. Submit a PR
 
+## Skills Marketplace
+
+### skills.sh
+
+Install via CLI:
+```bash
+npx skills add ajaywadhara/java-doctor
+```
+
 ## License
 
 MIT License - See LICENSE file

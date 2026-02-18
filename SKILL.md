@@ -654,7 +654,7 @@ Save report to `.output/java-doctor-{context}-{timestamp}.md`:
 ### Security (CRITICAL)
 1. **[File:Line]** - SEC-001: Hardcoded password found
    - **Severity:** CRITICAL
-   - **Problem:** `private static final String PASSWORD = "admin123";`
+   - **Problem:** `private static final String PASSWORD = "********";`
    - **Fix:** Use environment variable or configuration
 
 ## Recommendations
@@ -690,7 +690,7 @@ Save to `.output/java-doctor-{context}-{timestamp}.json`:
         "file": "src/main/java/com/example/AuthService.java",
         "line": 42,
         "title": "Hardcoded password found",
-        "problem": "private static final String PASSWORD = \"admin123\";",
+        "problem": "private static final String PASSWORD = \"********\";",
         "fix": "Use @Value injection or environment variable"
       }
     ],
@@ -796,7 +796,7 @@ Save to `.output/java-doctor-{context}-{timestamp}.csv`:
 
 ```csv
 Severity,Rule ID,File,Line,Issue,Problem,Fix
-CRITICAL,SEC-001,src/main/java/com/example/AuthService.java,42,Hardcoded password found,"private static final String PASSWORD = ""admin123"";","Use @Value injection"
+CRITICAL,SEC-001,src/main/java/com/example/AuthService.java,42,Hardcoded password found,"private static final String PASSWORD = \"********\";","Use @Value injection"
 WARNING,NULL-001,src/main/java/com/example/UserService.java,15,Optional.get() without check,userRepository.findById(id).get(),Use orElseThrow()
 ```
 

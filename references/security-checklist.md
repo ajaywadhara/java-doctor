@@ -35,13 +35,13 @@ public User getUser(@PathVariable Long id) {
 |---------|-------|-----------|-----|
 | SEC-A02-001 | Hardcoded encryption keys | `new SecretKeySpec("12345678".getBytes(), "AES")` | Use KeyStore or config |
 | SEC-A02-002 | Weak algorithms | `Cipher.getInstance("DES")` | Use AES-256, RSA-2048+ |
-| SEC-A02-003 | Hardcoded passwords | `password = "admin123"` | Use environment variables |
+| SEC-A02-003 | Hardcoded passwords | `password = "********"` | Use environment variables |
 | SEC-A02-004 | Missing SSL/TLS | `HttpURLConnection` without SSL | Use HTTPS, configure SSL |
 
 **Detection Patterns:**
 ```java
 // ❌ Hardcoded key
-private static final String KEY = "mySecretKey12345";
+private static final String KEY = "********";
 
 // ✅ Use configuration
 @Value("${encryption.key}")
@@ -312,11 +312,11 @@ Common patterns to detect:
 
 ```java
 // ❌ Hardcoded secrets (scan for these patterns)
-private static final String API_KEY = "sk-1234567890";
-private static final String PASSWORD = "admin123";
-private static final String SECRET = "mySecretKey";
+private static final String API_KEY = "sk-********";
+private static final String PASSWORD = "********";
+private static final String SECRET = "********";
 String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-String connectionString = "jdbc:mysql://root:root@localhost/db";
+String connectionString = "jdbc:mysql://root:********@localhost/db";
 
 // ✅ Should be externalized
 @Value("${api.key}")
