@@ -7,37 +7,56 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   </a>
+  <a href="https://github.com/ajaywadhara/java-doctor/stargazers">
+    <img src="https://img.shields.io/github/stars/ajaywadhara/java-doctor" alt="Stars">
+  </a>
 </p>
 
-Comprehensive Java code health analyzer that scans for security, performance, correctness, and architecture issues. Outputs a 0-100 score with actionable diagnostics.
+**AI-powered Java code health analyzer** that scans for security, performance, correctness, and architecture issues. Outputs a 0-100 score with actionable diagnostics and auto-detects 197 rules across 12+ categories.
 
 ## Overview
 
-Java Doctor is an AI-powered code review skill that analyzes Java projects for issues. It automatically detects project technologies and loads relevant rules.
+Java Doctor is an AI-powered code review skill that analyzes Java projects for issues. It automatically detects project technologies (Spring Boot, gRPC, JPA, Lombok) and loads relevant rules on-demand.
 
-Works with any AI assistant that supports custom skills or prompts (Claude Code, Cursor, GitHub Copilot, etc.).
+**197 rules** across 12 categories - from security vulnerabilities to concurrency safety to Spring best practices.
+
+Works with popular AI coding agents:
+
+| Agent | Support |
+|-------|---------|
+| Claude Code | Native (skills) |
+| Cursor | Native (skills) |
+| KiloCode | Native (skills) |
+| GitHub Copilot | Via custom instructions |
+| Windsurf | Native (skills) |
 
 ## Quick Start
 
 ```bash
-# Clone the repository
+# Install via skills CLI (recommended)
+npx skills add ajaywadhara/java-doctor
+
+# Or clone manually
 git clone https://github.com/ajaywadhara/java-doctor.git
 
 # Copy to your AI assistant's skills directory
-# For Claude Code:
+# For Claude Code / Cursor / KiloCode:
 cp -r java-doctor ~/.claude/skills/
+# or
+cp -r java-doctor ~/.cursor/skills/
+# or
+cp -r java-doctor ~/.kilocode/skills/
 ```
 
 Then activate the skill and say: **"Run Java Doctor"**
 
 ## Features
 
-### Progressive Loading
-Automatically detects project technologies and loads relevant rules:
+### 197 Rules Across 12 Categories
 
 | Technology | Detection | Rules |
 |-----------|----------|-------|
-| Core | Always | Security, Null Safety, Performance, Concurrency, etc. |
+| Core | Always | 108 rules (Security, Null Safety, Performance, Concurrency, etc.) |
 | Spring Boot | `spring-boot-starter-parent` | +23 rules |
 | gRPC | `grpc-java` | +26 rules |
 | JPA/Hibernate | `hibernate`, `spring-data-jpa` | +15 rules |
@@ -67,6 +86,7 @@ Automatically detects project technologies and loads relevant rules:
 "Check my Java code"
 "Find security issues in my code"
 "Scan for performance problems"
+"Analyze this Java project"
 ```
 
 ## Trigger Phrases
@@ -77,23 +97,24 @@ Automatically detects project technologies and loads relevant rules:
 - `find bugs in java`
 - `check for security issues in java`
 - `find performance problems`
+- `analyze java code`
 
-## Rule Categories (~197 rules)
+## Rule Categories (197 rules)
 
 | Category | When Loaded | Description |
 |----------|------------|-------------|
-| Security | Always | Hardcoded secrets, SQL injection, OWASP Top 10 |
-| Null Safety | Always | Optional.get(), null returns |
-| Exception Handling | Always | Swallowed exceptions |
-| Performance | Always | N+1 queries, String concatenation |
-| Concurrency | Always | Thread safety |
-| Architecture | Always | God classes, long methods |
-| Logging | Always | System.out, sensitive data |
-| Checkstyle | Always | Formatting, naming |
-| Spring/Boot | If detected | @Transactional, Boot 4.x |
-| gRPC | If detected | Channel reuse, TLS |
-| JPA | If detected | Hibernate issues |
-| Build Tools | Always | Dependencies, plugins |
+| Security (16) | Always | Hardcoded secrets, SQL injection, OWASP Top 10 |
+| Null Safety (8) | Always | Optional.get(), null returns |
+| Exception Handling (8) | Always | Swallowed exceptions |
+| Performance (12) | Always | N+1 queries, String concatenation |
+| Concurrency (12) | Always | Thread safety |
+| Architecture (10) | Always | God classes, long methods |
+| Logging (7) | Always | System.out, sensitive data |
+| Checkstyle (35) | Always | Formatting, naming |
+| Spring/Boot (23) | If detected | @Transactional, Boot 4.x |
+| gRPC (26) | If detected | Channel reuse, TLS |
+| JPA (15) | If detected | Hibernate issues |
+| Build Tools (20) | Always | Dependencies, plugins |
 
 ## Project Structure
 
