@@ -19,3 +19,6 @@ Thumbs.db
 # Output
 .output/
 *.md.bak
+
+# Agent tools
+.telemetry/

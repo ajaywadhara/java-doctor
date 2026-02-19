@@ -1,11 +1,11 @@
 ---
 name: java-doctor
-description: Comprehensive Java code health analyzer. 0-100 score with diagnostics. Progressive loading - detects project tech (Spring, gRPC, JPA) and loads relevant rules. Version-aware for Java 8-25 & Spring Boot 3.x/4.x. Use when reviewing Java code, finding bugs, or preparing for PR.
+description: Comprehensive Java code health analyzer. 0-100 score with diagnostics. Progressive loading - detects project tech (Spring, gRPC, JPA) and loads relevant rules. Version-aware for Java 8-25 & Spring Boot 3.x/4.x. Dead code detection included. Use when reviewing Java code, finding bugs, or preparing for PR.
 license: MIT
 compatibility: Java 8+, git
 metadata:
   author: Ajay Wadhara
-  version: "1.1"
+  version: "1.2"
   triggers:
     - run java doctor
     - scan my java code
@@ -13,6 +13,7 @@ metadata:
     - find bugs in java
     - check for security issues in java
     - find performance problems
+    - check for dead code
 allowed-tools: Bash(git:*) Read Write Glob Grep Edit question
 ---
 
@@ -553,7 +554,7 @@ Based on Google Java Style Guide - checks for code formatting, naming, and style
 | LOMBOK-004 | Using @Getter on boolean with "is" prefix | WARNING | Use proper naming |
 | LOMBOK-005 | Missing @NonNull on required fields | WARNING | Add validation |
 
-### 19. Build Tools - Maven/Gradle Rules
+### 19. Build Tools - Maven/Gradle Rules (20 rules)
 
 **Always check build files for best practices**
 
@@ -569,6 +570,68 @@ Based on Google Java Style Guide - checks for code formatting, naming, and style
 | BUILD-008 | Not using dependency locking | SUGGESTION | Use dependency lock for reproducible builds |
 | BUILD-019 | Missing parallel build configuration | SUGGESTION | Enable parallel execution |
 | BUILD-010 | Not using Gradle wrapper | WARNING | Use gradle wrapper for consistency |
+
+### 20. Dead Code Detection (NEW!)
+
+**Detects unused code - runs in parallel with lint checks**
+
+| Rule ID | Issue | Severity | Fix |
+|---------|-------|----------|-----|
+| DEAD-001 | Unused public method | WARNING | Remove or mark with @SuppressWarnings |
+| DEAD-002 | Unused private method | WARNING | Remove |
+| DEAD-003 | Unused field | WARNING | Remove |
+| DEAD-004 | Unused import | WARNING | Remove import statement |
+| DEAD-005 | Unused local variable | WARNING | Remove variable |
+| DEAD-006 | Unused private constructor | WARNING | Remove or make package-private |
+| DEAD-007 | Unused parameter | WARNING | Remove parameter or add @SuppressWarnings("unused") |
+| DEAD-008 | Unused inner class | WARNING | Remove or make static |
+| DEAD-009 | Unreachable code | WARNING | Remove dead code |
+| DEAD-010 | Duplicate code | WARNING | Extract to common method |
+| DEAD-011 | Empty catch block | WARNING | Add logging or remove |
+| DEAD-012 | Empty finally block | WARNING | Remove if not needed |
+| DEAD-013 | Empty constructor | WARNING | Remove if class has no superclass call |
+| DEAD-014 | Empty static initializer | WARNING | Remove if not needed |
+| DEAD-015 | Commented-out code | WARNING | Remove, use version control |
+
+**Dead Code Detection Patterns:**
+
+```java
+// DEAD-001: Unused public method - may be used by reflection or external code
+// Only mark as dead code if you're certain no external usage exists
+public void unusedPublicMethod() { } // Check for @Api exposure first
+
+// DEAD-004: Unused import
+import java.util.List; // If List is never used
+
+// DEAD-009: Unreachable code
+public int method() {
+    return 1;
+    return 2; // Unreachable - remove
+}
+
+// DEAD-010: Duplicate code
+public class UserService {
+    public void createUser(User user) {
+        validateUser(user); // Same validation duplicated
+        userRepository.save(user);
+        sendEmail(user.getEmail());
+    }
+    
+    public void updateUser(User user) {
+        validateUser(user); // Duplicate!
+        userRepository.save(user);
+    }
+    
+    private void validateUser(User user) { /* ... */ }
+}
+
+// DEAD-011: Empty catch block
+try {
+    riskyOperation();
+} catch (Exception e) {
+    // Empty! At least log the error
+}
+```
 
 ---
 
@@ -598,6 +661,16 @@ Analyze specific Java files.
 ```bash
 git diff <commit> -- path/to/File.java
 ```
+
+## Install for Your Coding Agent
+
+Teach your coding agent all Java best practice rules. Add this skill to your agent:
+
+```bash
+npx skills add ajaywadhara/java-doctor
+```
+
+Supports Cursor, Claude Code, Amp Code, Codex, Gemini CLI, OpenCode, Windsurf, and Antigravity.
 
 ---
 
